@@ -34,6 +34,9 @@ public class Transaction {
     @Column(name = "category")
     private ExpenseCategory category;
 
+    @Column(name = "limit_exceeded")
+    private Boolean limitExceeded;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Account accountFrom;
 

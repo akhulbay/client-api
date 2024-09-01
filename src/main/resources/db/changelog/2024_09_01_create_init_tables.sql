@@ -24,6 +24,7 @@ CREATE TABLE t_transaction
     sum                 DOUBLE PRECISION NOT NULL,
     currency_short_name CHAR(3)          NOT NULL,
     category            VARCHAR(32)      NOT NULL,
+    limit_exceeded      BOOLEAN          NOT NULL,
     account_from        BIGINT REFERENCES t_account (id),
     account_to          BIGINT REFERENCES t_account (id)
 )
