@@ -7,11 +7,13 @@ import kz.shyngys.client_api.repository.AccountLimitRepository;
 import kz.shyngys.client_api.service.AccountLimitService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AccountLimitServiceImpl implements AccountLimitService {
@@ -22,6 +24,8 @@ public class AccountLimitServiceImpl implements AccountLimitService {
     @Transactional
     @Override
     public void createDefault(@NonNull Long accountId) {
+        log.info("Creating default account limit for account: {}", accountId);
+
         AccountLimit limit = AccountLimit.builder()
                 .id(accountId)
                 .sum(config.defaultLimitSum)
@@ -30,5 +34,7 @@ public class AccountLimitServiceImpl implements AccountLimitService {
                 .build();
 
         accountLimitRepository.save(limit);
+
+        log.info("End creating default account");
     }
 }

@@ -12,9 +12,11 @@ import kz.shyngys.client_api.service.AccountService;
 import kz.shyngys.client_api.validator.AccountValidator;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -34,14 +36,24 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     @Override
     public Long create(@NonNull AccountCreateUpdateDto dto) {
+        log.info("init create, start validation");
+
         validator.validate(dto);
+
+        log.info("end validation, start mapping");
 
         Account account = AccountCreateUpdateMapper.INSTANCE.toAccount(dto);
 
+        log.info("end mapping, start saving to db");
+
         Long accountId = accountRepository.save(account).getId();
+
+        log.info("end saving to db, start creating default account limit");
 
         // to create default limit after creating of account
         accountLimitService.createDefault(accountId);
+
+        log.info("end creating default account limit");
 
         return accountId;
     }
