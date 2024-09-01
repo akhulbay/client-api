@@ -7,6 +7,7 @@ import kz.shyngys.client_api.mapper.AccountCreateUpdateMapper;
 import kz.shyngys.client_api.mapper.AccountReadMapper;
 import kz.shyngys.client_api.model.db.Account;
 import kz.shyngys.client_api.repository.AccountRepository;
+import kz.shyngys.client_api.service.AccountLimitService;
 import kz.shyngys.client_api.service.AccountService;
 import kz.shyngys.client_api.validator.AccountValidator;
 import lombok.NonNull;
@@ -21,6 +22,7 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final AccountValidator validator;
+    private final AccountLimitService accountLimitService;
 
     @Override
     public AccountReadDto findById(@NonNull Long id) {
@@ -36,7 +38,12 @@ public class AccountServiceImpl implements AccountService {
 
         Account account = AccountCreateUpdateMapper.INSTANCE.toAccount(dto);
 
-        return accountRepository.save(account).getId();
+        Long accountId = accountRepository.save(account).getId();
+
+        // to create default limit after creating of account
+        accountLimitService.createDefault(accountId);
+
+        return accountId;
     }
 
 }
