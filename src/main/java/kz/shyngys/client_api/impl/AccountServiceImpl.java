@@ -1,7 +1,10 @@
 package kz.shyngys.client_api.impl;
 
 import kz.shyngys.client_api.dto.AccountCreateUpdateDto;
+import kz.shyngys.client_api.dto.AccountReadDto;
+import kz.shyngys.client_api.exception.not_found.NotFoundAccount;
 import kz.shyngys.client_api.mapper.AccountCreateUpdateMapper;
+import kz.shyngys.client_api.mapper.AccountReadMapper;
 import kz.shyngys.client_api.model.db.Account;
 import kz.shyngys.client_api.repository.AccountRepository;
 import kz.shyngys.client_api.service.AccountService;
@@ -18,6 +21,13 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final AccountValidator validator;
+
+    @Override
+    public AccountReadDto findById(@NonNull Long id) {
+        return accountRepository.findById(id)
+                .map(AccountReadMapper.INSTANCE::toDto)
+                .orElseThrow(() -> new NotFoundAccount(id));
+    }
 
     @Transactional
     @Override
