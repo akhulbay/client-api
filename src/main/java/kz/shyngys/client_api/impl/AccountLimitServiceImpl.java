@@ -1,6 +1,7 @@
 package kz.shyngys.client_api.impl;
 
 import kz.shyngys.client_api.config.AccountLimitConfig;
+import kz.shyngys.client_api.exception.not_found.NotFoundAccountLimit;
 import kz.shyngys.client_api.model.Currency;
 import kz.shyngys.client_api.model.db.AccountLimit;
 import kz.shyngys.client_api.repository.AccountLimitRepository;
@@ -37,4 +38,18 @@ public class AccountLimitServiceImpl implements AccountLimitService {
 
         log.info("End creating default account");
     }
+
+    // todo shyngys add 3rd param as currency to make limit update better!
+    @Transactional
+    @Override
+    public void update(@NonNull Long id, @NonNull Double limit) {
+        AccountLimit accountLimit = accountLimitRepository.findById(id)
+                .orElseThrow(() -> new NotFoundAccountLimit(id));
+
+        accountLimit.setSum(limit);
+
+        accountLimitRepository.save(accountLimit);
+    }
+
+
 }

@@ -4,4 +4,6 @@ public interface AccountLimitService {
 
     void createDefault(Long accountId);
 
+    void update(Long id, Double limit);
+
 }
