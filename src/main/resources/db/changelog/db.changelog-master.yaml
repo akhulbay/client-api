@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
       file: db/changelog/2024_09_01_create_init_tables.sql
+  - include:
+      file: db/changelog/2024_09_01_create_currency_rate_table.sql
