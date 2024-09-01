@@ -1,4 +1,4 @@
-package kz.shyngys.client_api.model;
+package kz.shyngys.client_api.model.db;
 
 import jakarta.persistence.*;
 import lombok.*;

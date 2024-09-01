@@ -1,6 +1,7 @@
-package kz.shyngys.client_api.model;
+package kz.shyngys.client_api.model.db;
 
 import jakarta.persistence.*;
+import kz.shyngys.client_api.model.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,7 +25,8 @@ public class AccountLimit {
     @Column(name = "date_time")
     private LocalDateTime dateTime;
 
+    @Column(name = "currency_short_name")
     @Enumerated(EnumType.STRING)
-    private Currency currency;
+    private Currency currencyShortName;
 
 }
